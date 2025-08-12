@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { toast } from 'react-hot-toast';
 import Client from '../components/Client';
 import Editor from '../components/Editor';
@@ -12,8 +12,9 @@ import {
 } from 'react-router-dom';
 
 const EditorPage = () => {
-    const [socket, setSocket] = useState(null);
+    const socketRef = useRef(null);
     const [clients, setClients] = useState([]);
+    const [isReady, setIsReady] = useState(false);
 
     const location = useLocation();
     const { roomId } = useParams();
@@ -21,55 +22,57 @@ const EditorPage = () => {
 
     useEffect(() => {
         const init = async () => {
-            setSocket(await initSocket());
+            socketRef.current = await initSocket();
+            socketRef.current.on('connect_error', (err) => handleErrors(err));
+            socketRef.current.on('connect_failed', (err) => handleErrors(err));
+
+            function handleErrors(e) {
+                console.log('socket error', e);
+                toast.error('Socket connection failed, try again later.');
+                reactNavigator('/');
+            }
+
+            socketRef.current.emit(ACTIONS.JOIN, {
+                roomId,
+                username: location.state?.username,
+            });
+
+            socketRef.current.on(
+                ACTIONS.JOINED,
+                ({ clients, username, socketId }) => {
+                    if (username !== location.state?.username) {
+                        toast.success(`${username} joined the room.`);
+                    }
+                    setClients(clients);
+                    setIsReady(true);
+                }
+            );
+
+            socketRef.current.on(
+                ACTIONS.DISCONNECTED,
+                ({ socketId, username, clients }) => {
+                    toast.success(`${username} left the room.`);
+                    setClients(clients);
+                }
+            );
         };
         init();
 
         return () => {
-            if (socket) {
-                socket.disconnect();
-                socket.off(ACTIONS.JOINED);
-                socket.off(ACTIONS.DISCONNECTED);
+            if (socketRef.current) {
+                socketRef.current.disconnect();
+                socketRef.current.off(ACTIONS.JOINED);
+                socketRef.current.off(ACTIONS.DISCONNECTED);
             }
         };
     }, []);
 
-    useEffect(() => {
-        if (!socket) return;
-
-        socket.on('connect_error', (err) => handleErrors(err));
-        socket.on('connect_failed', (err) => handleErrors(err));
-
-        function handleErrors(e) {
-            console.log('socket error', e);
-            toast.error('Socket connection failed, try again later.');
-            reactNavigator('/');
-        }
-
-        socket.emit(ACTIONS.JOIN, {
-            roomId,
-            username: location.state?.username,
-        });
-
-        socket.on(ACTIONS.JOINED, ({ clients, username, socketId }) => {
-            if (username !== location.state?.username) {
-                toast.success(`${username} joined the room.`);
-            }
-            setClients(clients);
-        });
-
-        socket.on(ACTIONS.DISCONNECTED, ({ socketId, username, clients }) => {
-            toast.success(`${username} left the room.`);
-            setClients(clients);
-        });
-    }, [socket]);
-
     async function copyRoomId() {
         try {
             await navigator.clipboard.writeText(roomId);
-            toast.success('Room ID copied to clipboard.');
+            toast.success('Room ID has been copied to your clipboard');
         } catch (err) {
-            toast.error('Could not copy Room ID');
+            toast.error('Could not copy the Room ID');
             console.error(err);
         }
     }
@@ -103,11 +106,17 @@ const EditorPage = () => {
                         ))}
                     </div>
                 </div>
-                <button className="btn copyBtn" onClick={copyRoomId}>Copy ROOM ID</button>
-                <button className="btn leaveBtn" onClick={leaveRoom}>Leave</button>
+                <button className="btn copyBtn" onClick={copyRoomId}>
+                    Copy ROOM ID
+                </button>
+                <button className="btn leaveBtn" onClick={leaveRoom}>
+                    Leave
+                </button>
             </div>
             <div className="editorWrap">
-                {socket && <Editor socket={socket} roomId={roomId} />}
+                {isReady && (
+                    <Editor socketRef={socketRef} roomId={roomId} />
+                )}
             </div>
         </div>
     );
