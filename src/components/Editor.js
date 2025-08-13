@@ -13,8 +13,6 @@ const Editor = ({ socketRef, roomId }) => {
     useEffect(() => {
         const initEditor = () => {
             const editorElement = document.getElementById('realtimeEditor');
-            if (!editorElement) return;
-
             editorRef.current = Codemirror.fromTextArea(editorElement, {
                 mode: { name: 'javascript', json: true },
                 theme: 'dracula',
@@ -39,26 +37,34 @@ const Editor = ({ socketRef, roomId }) => {
                     });
                 }
             });
+
+            if (socketRef.current) {
+                socketRef.current.on(ACTIONS.CODE_CHANGE, ({ code }) => {
+                    if (code !== null && editorRef.current) {
+                        editorRef.current.setValue(code);
+                    }
+                });
+            }
+
+            if (socketRef.current) {
+                socketRef.current.emit(ACTIONS.SYNC_CODE, {
+                    roomId,
+                });
+            }
         };
 
         initEditor();
-    }, []);
-
-    useEffect(() => {
-        if (socketRef.current) {
-            socketRef.current.on(ACTIONS.CODE_CHANGE, ({ code }) => {
-                if (code !== null && editorRef.current) {
-                    editorRef.current.setValue(code);
-                }
-            });
-        }
 
         return () => {
             if (socketRef.current) {
                 socketRef.current.off(ACTIONS.CODE_CHANGE);
             }
+            if (editorRef.current) {
+                editorRef.current.toTextArea();
+                editorRef.current = null;
+            }
         };
-    }, [socketRef.current]);
+    }, []);
 
     return <textarea id="realtimeEditor"></textarea>;
 };
