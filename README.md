@@ -60,4 +60,12 @@ Follow these steps to run the project locally:
 
    ---
 
-   
+## 📸 Screenshots
+
+### Home Page (Joining a Room):
+<img width="1919" height="927" alt="image" src="https://github.com/user-attachments/assets/90b84c8a-8384-4ca8-b580-17172da345dc" />
+
+### Editor View (Multiple Users):
+<img width="1919" height="925" alt="image" src="https://github.com/user-attachments/assets/2127db74-c244-451f-842b-148f0ae83cf9" />
+
+
