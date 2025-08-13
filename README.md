@@ -1,70 +1,83 @@
-# Getting Started with Create React App
+Code-Sync: Real-Time Collaborative Code Editor 🚀
+Code-Sync is a full-stack web application that enables multiple users to write and edit code together in a shared room, with changes reflected in real-time for all participants. It's built from the ground up to demonstrate a deep understanding of WebSockets, state synchronization, and modern web development practices.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+✨ Key Features
+Real-Time Collaboration: Code changes are instantly synced across all clients in the room using WebSockets.
 
-## Available Scripts
+Live User Cursors & Presence: See who's currently in the room with live avatar updates.
 
-In the project directory, you can run:
+Room-Based Sessions: Create unique, shareable room IDs for private coding sessions.
 
-### `npm start`
+Code Sync on Join: New users immediately see the latest code when they join a room with an ongoing session.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Syntax Highlighting: A feature-rich editor powered by CodeMirror with support for JavaScript syntax.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+User Join/Leave Notifications: Get live toast notifications when a user joins or leaves the room.
 
-### `npm test`
+🛠️ Technologies Used
+This project leverages a modern, full-stack JavaScript ecosystem.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Front-End:
 
-### `npm run build`
+React.js: For building a dynamic and responsive user interface.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+React Router: For client-side routing and navigation.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Socket.IO Client: To manage the WebSocket connection with the server.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+CodeMirror: For the embedded, feature-rich code editor.
 
-### `npm run eject`
+React Hot Toast: For clean and simple user notifications.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+React Avatar: For generating user avatars from usernames.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Back-End:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Node.js: As the JavaScript runtime environment.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Express.js: As the web server framework for handling connections.
 
-## Learn More
+Socket.IO: To manage the server-side WebSocket logic, including room management and event broadcasting.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+⚙️ Setup and Installation
+To run this project locally, follow these steps:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Clone the repository:
 
-### Code Splitting
+git clone https://github.com/sujal3797/Code-Sync.git
+cd Code-Sync
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Install dependencies for both server and client:
+This project contains both the server and client, so you'll need to install dependencies for both.
 
-### Analyzing the Bundle Size
+npm install
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Create a .env file for the client:
+In the root directory, create a file named .env and add the following line. This tells your React app where to find the back-end server.
 
-### Making a Progressive Web App
+REACT_APP_BACKEND_URL=http://localhost:5000
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Start the server:
+This command starts the Node.js back-end server.
 
-### Advanced Configuration
+npm run server:dev
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+Start the client:
+In a new terminal window, run this command to start the React development server.
 
-### Deployment
+npm start
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+Open the application:
+Open your browser and navigate to http://localhost:3000.
 
-### `npm run build` fails to minify
+📸 Screenshots
+Home Page (Joining a Room):
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Editor View (Multiple Users):
+
+👨‍💻 Author
+Sujal Gupta
+
+GitHub: @sujal3797
+
+LinkedIn: Sujal Gupta
