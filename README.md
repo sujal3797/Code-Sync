@@ -42,3 +42,22 @@ Follow these steps to run the project locally:
    ```bash
    git clone https://github.com/sujal3797/Code-Sync.git
    cd Code-Sync
+2. **Install dependencies for both server and client**
+   ```bash
+   npm install
+3. **Create a .env file for the client**
+   ```bash
+   REACT_APP_BACKEND_URL=http://localhost:5000
+4. **Start the server**
+   ```bash
+   npm run server:dev
+5. **Start the client**
+   In a new terminal window:
+   ```bash
+   npm start
+6. **Open the application**
+   Visit: http://localhost:3000
+
+   ---
+
+   
