@@ -8,8 +8,6 @@
 
 **[CLICK HERE TO TRY IT OUT!](https://code-sync-1.netlify.app/)** 👈
 
-*(Replace the URL with your actual deployed Netlify link)*
-
 ---
 
 ## ✨ Key Features
