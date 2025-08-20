@@ -64,7 +64,7 @@ const Editor = ({ socketRef, roomId }) => {
                 editorRef.current = null;
             }
         };
-    }, []);
+    }, [socketRef, roomId]);
 
     return <textarea id="realtimeEditor"></textarea>;
 };
