@@ -70,9 +70,6 @@ const Home = () => {
                     </span>
                 </div>
             </div>
-            <footer>
-                <h4 className='footerText'>Built with ❤️</a></h4>
-            </footer>
         </div>
     )
 }
