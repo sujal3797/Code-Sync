@@ -71,7 +71,7 @@ const Home = () => {
                 </div>
             </div>
             <footer>
-                <h4 className='footerText'>Built with ❤️ by <a href="https://github.com/sujal3797">Sujal</a></h4>
+                <h4 className='footerText'>Built with ❤️</a></h4>
             </footer>
         </div>
     )
