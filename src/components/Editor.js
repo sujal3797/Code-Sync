@@ -78,6 +78,57 @@ const Editor = ({ socketRef, roomId }) => {
                 currentEditor.toTextArea();
             }
         };
+
+        const runCode = () => {
+            try {
+                const code = editorRef.current.getValue();
+                const logCapture = [];
+                const consoleLog = console.log;
+                console.log = (...args) => {
+                    logCapture.push(
+                    args
+                        .map((arg) => (typeof arg === "object" ? JSON.stringify(arg) : arg))
+                        .join(" ")
+                    );
+                    consoleLog.apply(console, args);
+                };
+                const result = eval(code);
+                console.log = consoleLog;
+                setOutput(logCapture.join("\n"));
+            } catch (error) {
+                console.error(error);
+                setOutput(Error: ${error.message});
+               }
+          };
+
+        return (
+            <div className="code_editor_area">
+            <textarea id="realtimeEditor"></textarea>
+            <div className="parent_run_code_button">
+                <button className="run_code_button" onClick={runCode}>
+                Run Code
+                </button>
+            </div>
+
+            <div className="output_area">
+                {output && (
+                <div
+                    className="out"
+                    style={{
+                    marginTop: "0",
+                    padding: "10px",
+                    backgroundColor: "#333",
+                    borderRadius: "5px",
+                    overflow: "auto",
+                    whiteSpace: "pre-wrap",
+                    }}
+                >
+                    {output}
+                </div>
+                )}
+            </div>
+          </div>
+         )
     }, [socketRef, roomId]); // Dependencies are correct
 
     return <textarea id="realtimeEditor"></textarea>;
